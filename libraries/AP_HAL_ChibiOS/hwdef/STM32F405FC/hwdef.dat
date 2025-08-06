@@ -1,0 +1,220 @@
+# ========================================
+# STM32F405FC 飞控板硬件定义文件
+# ========================================
+# 此文件由 chibios_pins.py 脚本处理
+# 基于STM32F405RGT6微控制器的自定义飞控板
+# 集成传感器：MPU6500陀螺仪、SPL06气压计、QMC5883L磁力计、AT7456E OSD
+# ========================================
+
+# ========================================
+# MCU微控制器配置
+# ========================================
+MCU STM32F4xx STM32F405xx    # MCU系列和具体型号
+HAL_CHIBIOS_ARCH_F405 1      # ChibiOS HAL架构：STM32F405
+
+# ========================================
+# 固件标识和时钟配置
+# ========================================
+APJ_BOARD_ID 1405             # 板卡ID：用于固件识别和加载
+OSCILLATOR_HZ 8000000         # 晶振频率：8MHz
+
+# ========================================
+# 系统定时器配置
+# ========================================
+STM32_ST_USE_TIMER 5          # 系统定时器：使用TIM5（32位定时器）
+
+# ========================================
+# Flash存储配置
+# ========================================
+FLASH_SIZE_KB 1024            # Flash大小：1024KB (1MB)
+FLASH_RESERVE_START_KB 64     # Flash保留起始：64KB (用于bootloader)
+
+# ========================================
+# 总线配置顺序
+# ========================================
+I2C_ORDER I2C1                # I2C总线顺序：仅使用I2C1
+SERIAL_ORDER OTG1 USART1 USART2 USART3 UART4 UART5 USART6  # 串口顺序：USB + 6个串口
+
+# ========================================
+# 模拟输入引脚配置 (ADC)
+# ========================================
+# 电池电压监测 - PC4 (ADC1通道14)
+PC4 BAT_VOLT_SENS ADC1 SCALE(1)    # 电池电压传感器输入
+# 电流监测 - PC5 (ADC1通道15)  
+PC5 BAT_CURR_SENS ADC1 SCALE(1)    # 电池电流传感器输入
+
+# ========================================
+# PWM输出引脚配置 - 7路主要输出
+# ========================================
+# S1 - PB3 (TIM2_CH2) - 油门输出
+PB3 TIM2_CH2 TIM2 PWM(1) GPIO(50)  # PWM输出1：油门控制
+# S2 - PB4 (TIM3_CH1) - 副翼输出
+PB4 TIM3_CH1 TIM3 PWM(2) GPIO(51)  # PWM输出2：副翼控制
+# S3 - PB5 (TIM3_CH2) - 升降舵输出
+PB5 TIM3_CH2 TIM3 PWM(3) GPIO(52)  # PWM输出3：升降舵控制
+# S4 - PB8 (TIM4_CH3) - 方向舵输出
+PB8 TIM4_CH3 TIM4 PWM(4) GPIO(53)  # PWM输出4：方向舵控制
+# S5 - PB9 (TIM4_CH4) - 起落架输出
+PB9 TIM4_CH4 TIM4 PWM(5) GPIO(54)  # PWM输出5：起落架控制
+# S6 - PA0 (TIM2_CH1) - 备用输出1  
+PA0 TIM2_CH1 TIM2 PWM(6) GPIO(55)  # PWM输出6：备用控制1
+# S7 - PA1 (TIM2_CH2) - 备用输出2 [已禁用]
+# PA1 TIM2_CH2 TIM2 PWM(7) GPIO(56)  # PWM输出7：备用控制2 - 暂时禁用
+
+# ========================================
+# 备用电机控制端口配置 (4路GPIO输出)
+# ========================================
+# MS1 - PB0 (TIM3_CH3) - 备用电机控制1
+PB0 TIM3_CH3 TIM3 PWM(8) GPIO(60)  # 备用PWM输出8
+# MS2 - PB1 (TIM3_CH4) - 备用电机控制2
+PB1 TIM3_CH4 TIM3 PWM(9) GPIO(61)  # 备用PWM输出9
+# MS3 - PC9 (TIM8_CH4) - 备用电机控制3
+PC9 TIM8_CH4 TIM8 PWM(10) GPIO(62) # 备用PWM输出10
+# MS4 - PA8 (TIM1_CH1) - 备用电机控制4
+PA8 TIM1_CH1 TIM1 PWM(11) GPIO(63) # 备用PWM输出11
+
+# ========================================
+# SPI接口配置
+# ========================================
+# SPI1 - MPU6500 陀螺仪/加速度计传感器
+PA5 SPI1_SCK SPI1                    # SPI1时钟线
+PA6 SPI1_MISO SPI1                   # SPI1数据输入线
+PA7 SPI1_MOSI SPI1                   # SPI1数据输出线
+PA4 MPU6500_CS CS                    # MPU6500片选信号
+
+# SPI2 - AT7456E OSD屏幕显示芯片
+PB13 SPI2_SCK SPI2                   # SPI2时钟线
+PB14 SPI2_MISO SPI2                  # SPI2数据输入线
+PB15 SPI2_MOSI SPI2                  # SPI2数据输出线
+PB12 OSD_CS CS                       # OSD片选信号
+
+# ========================================
+# I2C接口配置
+# ========================================
+# I2C1 - 传感器总线 (SPL06气压计, QMC5883L磁力计)
+PB6 I2C1_SCL I2C1 PULLUP            # I2C1时钟线 (上拉)
+PB7 I2C1_SDA I2C1 PULLUP            # I2C1数据线 (上拉)
+
+# ========================================
+# 串口配置
+# ========================================
+# USART1 - PA9/PA10 (数传电台接口)
+PA9 USART1_TX USART1                  # USART1发送引脚
+PA10 USART1_RX USART1                 # USART1接收引脚
+
+# USART2 - PA2/PA3 (GPS模块接口)
+PA2 USART2_TX USART2                  # USART2发送引脚
+PA3 USART2_RX USART2                  # USART2接收引脚
+
+# USART3 - PB10/PB11 (用户可配置接口)
+PB10 USART3_TX USART3                 # USART3发送引脚
+PB11 USART3_RX USART3                 # USART3接收引脚
+
+# UART4 - PC10/PC11 (用户可配置接口)
+PC10 UART4_TX UART4                   # UART4发送引脚
+PC11 UART4_RX UART4                   # UART4接收引脚
+
+# UART5 - PC12/PD2 (ExpressLRS遥控器接口)
+PC12 UART5_TX UART5                   # UART5发送引脚
+PD2 UART5_RX UART5                    # UART5接收引脚
+
+# USART6 - PC6/PC7 (用户可配置接口)
+PC6 USART6_TX USART6                  # USART6发送引脚
+PC7 USART6_RX USART6                  # USART6接收引脚
+
+# ========================================
+# USB接口配置
+# ========================================
+PA11 OTG_FS_DM OTG1                   # USB数据负线
+PA12 OTG_FS_DP OTG1                   # USB数据正线
+
+# ========================================
+# LED指示灯配置
+# ========================================
+PC13 LED_FC OUTPUT LOW GPIO(1)        # 飞控状态LED (PC13)
+PC14 LED_LXB OUTPUT LOW GPIO(2)       # 外部LED指示灯 (PC14)
+
+# 板载LED定义
+define AP_NOTIFY_GPIO_LED_2_ENABLED 1 # 启用双LED通知
+define HAL_GPIO_A_LED_PIN 1           # LED A引脚定义
+define HAL_GPIO_B_LED_PIN 2           # LED B引脚定义
+
+# ========================================
+# 传感器中断引脚配置
+# ========================================
+PC3 MPU6500_EXTL_PIN INPUT            # MPU6500外部中断引脚 (PC3)
+
+# ========================================
+# 调试接口配置
+# ========================================
+PA13 JTMS-SWDIO SWD                   # SWD调试数据线
+PA14 JTCK-SWCLK SWD                   # SWD调试时钟线
+
+# ========================================
+# SPI设备配置表
+# ========================================
+SPIDEV mpu6500   SPI1 DEVID1 MPU6500_CS   MODE3 1*MHZ 8*MHZ    # MPU6500陀螺仪配置
+SPIDEV osd       SPI2 DEVID2 OSD_CS       MODE0 10*MHZ 10*MHZ   # AT7456E OSD配置
+
+# ========================================
+# 传感器配置
+# ========================================
+# IMU惯性测量单元 - MPU6500陀螺仪/加速度计
+IMU Invensense SPI:mpu6500 ROTATION_NONE    # MPU6500传感器，无旋转
+
+# 气压计配置 - SPL06气压传感器
+BARO SPL06 I2C:0:0x76                      # SPL06气压计，I2C地址0x76
+define AP_BARO_BACKEND_DEFAULT_ENABLED 0    # 禁用默认气压计后端
+define AP_BARO_SPL06_ENABLED 1             # 启用SPL06气压计
+
+# 磁力计配置 - 自动探测外部I2C磁力计（包括QMC5883L）
+define HAL_PROBE_EXTERNAL_I2C_COMPASSES     # 启用外部I2C磁力计探测
+define HAL_I2C_INTERNAL_MASK 0             # 禁用内部磁力计
+define HAL_COMPASS_AUTO_ROT_DEFAULT 2      # 磁力计自动旋转检测
+
+# ========================================
+# 存储配置
+# ========================================
+STORAGE_FLASH_PAGE 1                    # Flash存储页面：第1页
+define HAL_STORAGE_SIZE 15360           # 存储大小：15360字节
+
+# ========================================
+# 电池监测配置
+# ========================================
+define HAL_BATT_VOLT_PIN 14            # 电池电压引脚：PC4对应ADC通道14
+define HAL_BATT_CURR_PIN 15            # 电池电流引脚：PC5对应ADC通道15
+define HAL_BATT_VOLT_SCALE 11.0        # 电压分压器倍数：11.0倍
+define HAL_BATT_CURR_SCALE 18.2        # 电流传感器灵敏度：18.2mA/V
+
+# ========================================
+# OSD屏幕显示配置
+# ========================================
+define OSD_ENABLED 1                    # 启用OSD功能
+define HAL_OSD_TYPE_DEFAULT 1           # 默认OSD类型：AT7456E
+
+# 字体文件配置
+ROMFS_WILDCARD libraries/AP_OSD/fonts/font0.bin    # OSD字体文件
+
+# ========================================
+# 功能模块配置
+# ========================================
+define HAL_QUADPLANE_ENABLED 0         # 禁用四旋翼飞机模式
+define HAL_RALLY_ENABLED 1             # 启用集结点功能
+
+# 默认功能特性
+define DEFAULT_FEATURES (FEATURE_TELEMETRY | FEATURE_OSD)    # 默认启用数传和OSD
+
+# ========================================
+# 功能禁用配置 (节省Flash空间)
+# ========================================
+define HAL_SPRAYER_ENABLED 0           # 禁用喷洒器功能
+define HAL_PRECISION_LANDING_ENABLED 0 # 禁用精确着陆功能
+define HAL_IRLOCK_ENABLED 0            # 禁用IR-Lock功能
+define HAL_ADSB_ENABLED 0              # 禁用ADSB功能
+define HAL_SMARTAUDIO_ENABLED 0        # 禁用SmartAudio功能
+define HAL_MSP_ENABLED 0               # 禁用MSP协议
+
+# ========================================
+# Bootloader配置
+# ========================================
+define AP_BOOTLOADER_FLASHING_ENABLED 0 # 禁用bootloader刷新功能
