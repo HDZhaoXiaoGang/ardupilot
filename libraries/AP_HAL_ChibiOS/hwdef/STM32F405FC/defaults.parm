@@ -12,7 +12,7 @@ BATT_MONITOR 4          # 电池监测器类型：4=模拟电压电流监测
 BATT_VOLT_PIN 1         # 电池电压监测引脚：PA1 (ADC1通道1) - 与inav一致
 BATT_CURR_PIN 15        # 电池电流监测引脚：PC5 (ADC1通道15)
 BATT_VOLT_MULT 11.0     # 电压分压器倍数：11.0倍分压
-BATT_AMP_PERVLT 18.2    # 电流传感器灵敏度：18.2mA/V
+BATT_AMP_PERVLT 18.2    # 电流传感器灵敏度：18.2mA/V (对应inav的CURRENT_METER_SCALE 2000)
 BATT_CAPACITY 0         # 电池容量：0=自动检测
 
 # ========================================
@@ -35,7 +35,7 @@ BARO_PROBE_EXT 0        # 外部气压计探测：0=禁用，使用内部气压�
 OSD_TYPE 1              # OSD类型：1=AT7456E芯片
 
 # ========================================
-# 串口配置
+# 串口配置 - 精简版 (仅3个串口)
 # ========================================
 # SERIAL0: USB接口 (MAVLink通信)
 SERIAL0_PROTOCOL 2      # 协议类型：2=MAVLink2
@@ -49,21 +49,9 @@ SERIAL1_BAUD 57600      # 波特率：57600
 SERIAL2_PROTOCOL 5      # 协议类型：5=GPS
 SERIAL2_BAUD 38400      # 波特率：38400
 
-# SERIAL3: USART3 (用户可配置)
-SERIAL3_PROTOCOL 0      # 协议类型：0=禁用
+# SERIAL3: USART3 (遥控器输入)
+SERIAL3_PROTOCOL 1      # 协议类型：1=MAVLink1
 SERIAL3_BAUD 57600      # 波特率：57600
-
-# SERIAL4: UART4 (用户可配置)
-SERIAL4_PROTOCOL 0      # 协议类型：0=禁用
-SERIAL4_BAUD 57600      # 波特率：57600
-
-# SERIAL5: UART5 (遥控器输入/ExpressLRS)
-SERIAL5_PROTOCOL 23     # 协议类型：23=ExpressLRS
-SERIAL5_BAUD 420000     # 波特率：420000
-
-# SERIAL6: USART6 (用户可配置)
-SERIAL6_PROTOCOL 0      # 协议类型：0=禁用
-SERIAL6_BAUD 57600      # 波特率：57600
 
 # ========================================
 # 遥控器输入配置
@@ -121,3 +109,21 @@ ARSPD_TYPE 0            # 空速传感器类型：0=禁用
 # 自动任务配置
 # ========================================
 MIS_TOTAL 100           # 任务总数限制：100个航点
+
+# ========================================
+# 精简版配置 (移除高级功能)
+# ========================================
+# 禁用高级电调功能
+DSHOT_ESC_MSK 0         # DSHOT电调掩码：0=禁用DSHOT
+ESC_SENSOR_ENABLE 0     # 禁用电调传感器：0=禁用
+
+# PINIO配置 (精简版)
+PINIO1_FUNCTION 0       # PINIO1功能：0=禁用
+PINIO1_CONFIG 0         # PINIO1配置：0=禁用
+
+# 标准PWM频率配置
+SERVO_PWM_RATE 50       # 舵机PWM频率：50Hz (标准舵机)
+
+# 精简日志配置
+LOG_BITMASK 8191        # 日志位掩码：启用基本日志 (精简)
+LOG_FILE_BUFSIZE 100    # 日志文件缓冲区：100KB (精简)

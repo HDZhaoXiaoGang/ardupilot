@@ -44,30 +44,16 @@ PA1 BAT_VOLT_SENS ADC1 SCALE(1)    # 电池电压传感器输入
 PC5 BAT_CURR_SENS ADC1 SCALE(1)    # 电池电流传感器输入
 
 # ========================================
-# PWM输出引脚配置 - 6路主要输出 (参考inav配置)
+# PWM输出引脚配置 - 精简版 (4路主要输出)
 # ========================================
-# S1 - PB3 (TIM2_CH2) - 电机输出1
-PB3 TIM2_CH2 TIM2 PWM(1) GPIO(50)  # PWM输出1：电机控制1
-# S2 - PB4 (TIM3_CH1) - 电机输出2
-PB4 TIM3_CH1 TIM3 PWM(2) GPIO(51)  # PWM输出2：电机控制2
-# S3 - PB5 (TIM3_CH2) - 电机输出3
-PB5 TIM3_CH2 TIM3 PWM(3) GPIO(52)  # PWM输出3：电机控制3
-# S4 - PB8 (TIM4_CH3) - 电机输出4
-PB8 TIM4_CH3 TIM4 PWM(4) GPIO(53)  # PWM输出4：电机控制4
-# S5 - PB9 (TIM4_CH4) - 电机输出5
-PB9 TIM4_CH4 TIM4 PWM(5) GPIO(54)  # PWM输出5：电机控制5
-# S6 - PA0 (TIM2_CH1) - 电机输出6
-PA0 TIM2_CH1 TIM2 PWM(6) GPIO(55)  # PWM输出6：电机控制6
-# S7 - PA1 (TIM2_CH2) - 已禁用，避免与PB3定时器冲突 (参考inav)
-# PA1 TIM2_CH2 TIM2 PWM(7) GPIO(56)  # PWM输出7：已禁用
-
-# ========================================
-# 备用电机控制端口配置 - 修正为与inav一致
-# ========================================
-# MS1 - PB0 (TIM3_CH3) - 备用电机控制1
-PB0 TIM3_CH3 TIM3 PWM(8) GPIO(60)  # 备用PWM输出8
-# MS2 - PB1 (TIM3_CH4) - 备用电机控制2
-PB1 TIM3_CH4 TIM3 PWM(9) GPIO(61)  # 备用PWM输出9
+# S1 - PB3 (TIM2_CH2) - 舵机输出1
+PB3 TIM2_CH2 TIM2 PWM(1) GPIO(50)  # PWM输出1：舵机控制1
+# S2 - PB4 (TIM3_CH1) - 舵机输出2
+PB4 TIM3_CH1 TIM3 PWM(2) GPIO(51)  # PWM输出2：舵机控制2
+# S3 - PB5 (TIM3_CH2) - 舵机输出3
+PB5 TIM3_CH2 TIM3 PWM(3) GPIO(52)  # PWM输出3：舵机控制3
+# S4 - PB8 (TIM4_CH3) - 舵机输出4
+PB8 TIM4_CH3 TIM4 PWM(4) GPIO(53)  # PWM输出4：舵机控制4
 
 # ========================================
 # PINIO配置 - 与inav一致
@@ -101,7 +87,7 @@ PB6 I2C1_SCL I2C1 PULLUP            # I2C1时钟线 (上拉)
 PB7 I2C1_SDA I2C1 PULLUP            # I2C1数据线 (上拉)
 
 # ========================================
-# 串口配置 - 参考inav配置
+# 串口配置 - 精简版 (仅保留必要串口)
 # ========================================
 # USART1 - PA9/PA10 (数传电台接口)
 PA9 USART1_TX USART1                  # USART1发送引脚
@@ -111,30 +97,20 @@ PA10 USART1_RX USART1                 # USART1接收引脚
 PA2 USART2_TX USART2                  # USART2发送引脚
 PA3 USART2_RX USART2                  # USART2接收引脚
 
-# USART3 - PB10/PB11 (用户可配置接口)
+# USART3 - PB10/PB11 (遥控器接口)
 PB10 USART3_TX USART3                 # USART3发送引脚
 PB11 USART3_RX USART3                 # USART3接收引脚
 
-# UART4 - PC10/PC11 (用户可配置接口)
-PC10 UART4_TX UART4                   # UART4发送引脚
-PC11 UART4_RX UART4                   # UART4接收引脚
-
-# UART5 - PC12/PD2 (ExpressLRS遥控器接口)
-PC12 UART5_TX UART5                   # UART5发送引脚
-PD2 UART5_RX UART5                    # UART5接收引脚
-
-# USART6 - PC6/PC7 (用户可配置接口)
-PC6 USART6_TX USART6                  # USART6发送引脚
-PC7 USART6_RX USART6                  # USART6接收引脚
-
-# 串口数量定义
+# 串口数量定义 (精简为3个串口)
 define HAL_SERIAL0_BAUD_DEFAULT 115200    # USB默认波特率
 define HAL_SERIAL1_BAUD_DEFAULT 57600     # USART1默认波特率
 define HAL_SERIAL2_BAUD_DEFAULT 38400     # USART2默认波特率(GPS)
 define HAL_SERIAL3_BAUD_DEFAULT 57600     # USART3默认波特率
-define HAL_SERIAL4_BAUD_DEFAULT 57600     # UART4默认波特率
-define HAL_SERIAL5_BAUD_DEFAULT 420000    # UART5默认波特率(ExpressLRS)
-define HAL_SERIAL6_BAUD_DEFAULT 57600     # USART6默认波特率
+
+# 禁用多余的串口
+define HAL_SERIAL4_ENABLED 0             # 禁用UART4
+define HAL_SERIAL5_ENABLED 0             # 禁用UART5
+define HAL_SERIAL6_ENABLED 0             # 禁用USART6
 
 # ========================================
 # USB接口配置 - 已禁用
@@ -159,10 +135,10 @@ define HAL_GPIO_B_LED_PIN 2           # LED B引脚定义
 PC3 MPU6500_EXTL_PIN INPUT            # MPU6500外部中断引脚 (PC3)
 
 # ========================================
-# 调试接口配置
+# 调试接口配置 - 已禁用
 # ========================================
-PA13 JTMS-SWDIO SWD                   # SWD调试数据线
-PA14 JTCK-SWCLK SWD                   # SWD调试时钟线
+# PA13 JTMS-SWDIO SWD                   # SWD调试数据线 - 已禁用
+# PA14 JTCK-SWCLK SWD                   # SWD调试时钟线 - 已禁用
 
 # ========================================
 # SPI设备配置表
@@ -174,7 +150,7 @@ SPIDEV osd       SPI2 DEVID2 OSD_CS       MODE0 10*MHZ 10*MHZ   # AT7456E OSD配
 # 传感器配置 - 参考inav配置
 # ========================================
 # IMU惯性测量单元 - MPU6500陀螺仪/加速度计
-IMU Invensense SPI:mpu6500 ROTATION_NONE    # MPU6500传感器，无旋转
+IMU Invensense SPI:mpu6500 ROTATION_YAW_180    # MPU6500传感器，YAW轴旋转180度 (对应inav的CW180_DEG_FLIP)
 
 # 气压计配置 - SPL06气压传感器
 BARO SPL06 I2C:0:0x76                      # SPL06气压计，I2C地址0x76
@@ -214,28 +190,31 @@ define HAL_OSD_TYPE_DEFAULT 1           # 默认OSD类型：AT7456E
 ROMFS_WILDCARD libraries/AP_OSD/fonts/font0.bin    # OSD字体文件
 
 # ========================================
-# 功能模块配置 - 参考inav配置
+# 功能模块配置 - 精简版
 # ========================================
 define HAL_QUADPLANE_ENABLED 0         # 禁用四旋翼飞机模式
-define HAL_RALLY_ENABLED 1             # 启用集结点功能
+define HAL_RALLY_ENABLED 0             # 禁用集结点功能 (精简)
 
-# 默认功能特性 - 参考inav的DEFAULT_FEATURES
-define DEFAULT_FEATURES (FEATURE_TX_PROF_SEL | FEATURE_OSD | FEATURE_CURRENT_METER | FEATURE_VBAT | FEATURE_TELEMETRY)
+# 默认功能特性 - 精简版
+define DEFAULT_FEATURES (FEATURE_OSD | FEATURE_CURRENT_METER | FEATURE_VBAT)
 
-# DSHOT电调支持 - 已禁用
-# define HAL_DSHOT_ENABLED 1             # 启用DSHOT协议支持 - 已禁用
-# define HAL_ESC_SENSOR_ENABLED 1        # 启用电调传感器支持 - 已禁用
-# define HAL_SERIAL_4WAY_BLHELI_INTERFACE_ENABLED 1  # 启用BLHeli电调接口 - 已禁用
+# 禁用高级电调功能 (精简)
+define HAL_DSHOT_ENABLED 0             # 禁用DSHOT协议支持
+define HAL_ESC_SENSOR_ENABLED 0        # 禁用电调传感器支持
+define HAL_SERIAL_4WAY_BLHELI_INTERFACE_ENABLED 0  # 禁用BLHeli电调接口
 
 # ========================================
-# 功能禁用配置 (节省Flash空间)
+# 功能禁用配置 (精简版 - 节省Flash空间)
 # ========================================
 define HAL_SPRAYER_ENABLED 0           # 禁用喷洒器功能
 define HAL_PRECISION_LANDING_ENABLED 0 # 禁用精确着陆功能
 define HAL_IRLOCK_ENABLED 0            # 禁用IR-Lock功能
 define HAL_ADSB_ENABLED 0              # 禁用ADSB功能
-define HAL_SMARTAUDIO_ENABLED 1        # 启用SmartAudio功能
-define HAL_MSP_ENABLED 1               # 启用MSP协议
+define HAL_SMARTAUDIO_ENABLED 0        # 禁用SmartAudio功能 (精简)
+define HAL_MSP_ENABLED 0               # 禁用MSP协议 (精简)
+define HAL_SCRIPTING_ENABLED 0         # 禁用脚本功能 (精简)
+define HAL_GYROFFT_ENABLED 0           # 禁用陀螺仪FFT功能 (精简)
+define HAL_VISUALODOM_ENABLED 0        # 禁用视觉里程计 (精简)
 
 # ========================================
 # Bootloader配置
